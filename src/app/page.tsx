@@ -5,10 +5,19 @@ import { scrapeAndStoreProduct } from "../../lib/action";
 const Home = () => {
   const [searchUrl, setsearchUrl] = useState("");
 
-  const handleSubmit = async () => {
-    // const isValidLink = isValidAmazonProductURL(searchPrompt);
+  const isValidAmazonProductUrl = (url: string) => {
+    // Amazon product URL regex
+    const amazonProductUrlRegex =
+      /^(https?:\/\/)?(www\.)?amazon\.(com|ca|co\.uk|de|fr|es|it|in|jp|com\.au|com\.br|com\.mx|nl|sg|ae|sa)\b.*\/(dp|gp\/product|exec\/obidos\/ASIN)\/[A-Za-z0-9]{10}/;
 
-    // if (!isValidLink) return alert("Please provide a valid Amazon link");
+    // Test the URL against the regex
+    return amazonProductUrlRegex.test(url);
+  };
+
+  const handleSubmit = async () => {
+    const isValidLink = isValidAmazonProductUrl(searchUrl);
+
+    if (!isValidLink) return alert("Please provide a valid Amazon link");
 
     try {
       // setIsLoading(true);
