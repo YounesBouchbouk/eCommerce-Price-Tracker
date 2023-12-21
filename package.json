@@ -9,13 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
     "axios": "^1.6.2",
     "cheerio": "^1.0.0-rc.12",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-responsive-carousel": "^3.2.23"
   },
   "devDependencies": {
     "@types/node": "latest",

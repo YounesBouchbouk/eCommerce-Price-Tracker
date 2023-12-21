@@ -1,57 +1,55 @@
-"use client";
 import React, { FormEvent, useState } from "react";
-import { scrapeAndStoreProduct } from "../../lib/action";
+import { getAllProducts, scrapeAndStoreProduct } from "../../lib/action";
+import Image from "next/image";
+import Searchbar from "@/components/Searchbar";
+import HeroCarousel from "@/components/HeroCarousel";
+import ProductCard from "@/components/ProductCard";
 
-const Home = () => {
-  const [searchUrl, setsearchUrl] = useState("");
+const Home = async () => {
+  const allProducts = await getAllProducts();
 
-  const isValidAmazonProductUrl = (url: string) => {
-    // Amazon product URL regex
-    const amazonProductUrlRegex =
-      /^(https?:\/\/)?(www\.)?amazon\.(com|ca|co\.uk|de|fr|es|it|in|jp|com\.au|com\.br|com\.mx|nl|sg|ae|sa)\b.*\/(dp|gp\/product|exec\/obidos\/ASIN)\/[A-Za-z0-9]{10}/;
-
-    // Test the URL against the regex
-    return amazonProductUrlRegex.test(url);
-  };
-
-  const handleSubmit = async () => {
-    const isValidLink = isValidAmazonProductUrl(searchUrl);
-
-    if (!isValidLink) return alert("Please provide a valid Amazon link");
-
-    try {
-      // setIsLoading(true);
-
-      // Scrape the product page
-      const product = await scrapeAndStoreProduct(searchUrl);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      // setIsLoading(false);
-    }
-  };
   return (
-    <div>
-      <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
-        Search
-      </label>
-      <div className="relative">
-        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"></div>
-        <input
-          type="search"
-          onChange={(e) => setsearchUrl(e.target.value)}
-          id="default-search"
-          className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Search Mockups, Logos..."
-        />
-        <button
-          onClick={handleSubmit}
-          className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Search
-        </button>
-      </div>
-    </div>
+    <>
+      <section className="px-6 md:px-20 py-24">
+        <div className="flex max-xl:flex-col gap-16">
+          <div className="flex flex-col justify-center">
+            <p className="small-text">
+              Smart Shopping Starts Here:
+              <Image
+                src="/assets/icons/arrow-right.svg"
+                alt="arrow-right"
+                width={16}
+                height={16}
+              />
+            </p>
+
+            <h1 className="head-text">
+              Unleash the Power of
+              <span className="text-primary"> TrackPrice </span>
+            </h1>
+
+            <p className="mt-6">
+              Powerful, self-serve product and growth analytics to help you
+              convert, engage, and retain more.
+            </p>
+
+            <Searchbar />
+          </div>
+
+          <HeroCarousel />
+        </div>
+      </section>
+
+      <section className="trending-section">
+        <h2 className="section-text">Trending</h2>
+
+        <div className="flex flex-wrap gap-x-8 gap-y-16">
+          {allProducts?.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </div>
+      </section>
+    </>
   );
 };
 
