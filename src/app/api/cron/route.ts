@@ -1,6 +1,7 @@
 import { scrapeAndStoreProduct } from "../../../../lib/action";
 import Product from "../../../../lib/models/product.model";
 import { ConnectToDB } from "../../../../lib/mongoose";
+import { generateEmailBody, sendEmail } from "../../../../lib/nodemailer";
 import {
   getAveragePrice,
   getEmailNotifType,
@@ -41,6 +42,7 @@ export async function GET() {
         );
 
         // ======================== 2 CHECK EACH PRODUCT'S STATUS & SEND EMAIL ACCORDINGLY
+
         const emailNotifType = getEmailNotifType(
           scrapedProduct,
           currentProduct
@@ -51,12 +53,12 @@ export async function GET() {
             title: updatedProduct.title,
             url: updatedProduct.url,
           };
-          // // Construct emailContent
-          // const emailContent = await generateEmailBody(productInfo, emailNotifType);
-          // // Get array of user emails
-          // const userEmails = updatedProduct.users.map((user: any) => user.email);
-          // // Send email notification
-          // await sendEmail(emailContent, userEmails);
+          // Construct emailContent
+          const emailContent = await generateEmailBody(productInfo, emailNotifType);
+          // Get array of user emails
+          const userEmails = updatedProduct.users.map((user: any) => user.email);
+          // Send email notification
+          await sendEmail(emailContent, userEmails);
         }
 
         return updatedProduct;
