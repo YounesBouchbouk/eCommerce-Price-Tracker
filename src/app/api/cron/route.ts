@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import { scrapeAndStoreProduct } from "../../../../lib/action";
 import Product from "../../../../lib/models/product.model";
 import { ConnectToDB } from "../../../../lib/mongoose";
@@ -64,6 +65,11 @@ export async function GET() {
         return updatedProduct;
       })
     );
+
+    return NextResponse.json({
+      message: "Ok",
+      data: updatedProducts,
+    });
   } catch (error) {
     throw new Error(`Error in get Request ^${error}`);
   }
