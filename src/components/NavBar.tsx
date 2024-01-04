@@ -12,15 +12,8 @@ const Navbar = () => {
     <header className="w-full">
       <nav className=" flex items-center justify-center w-full nav">
         <Link href="/" className="flex items-center gap-1">
-          <Image
-            src="/assets/icons/logo.svg"
-            width={27}
-            height={27}
-            alt="logo"
-          />
-
           <p className="nav-logo">
-            Tack<span className="text-primary">Price</span>
+            Track<span className="text-primary">Price</span>
           </p>
         </Link>
 

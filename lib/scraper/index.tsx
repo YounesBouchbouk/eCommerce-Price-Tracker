@@ -10,8 +10,6 @@ export async function scapeAmazonProduct(url: string) {
   const port = 22225;
   const session_id = (100000 * Math.random()) | 0;
 
-  //   curl --proxy brd.superproxy.io:22225 --proxy-user brd-customer-hl_43aeb7e4-zone-unblocker:5cce3085k1py -k https://lumtest.com/myip.json
-
   const options = {
     auth: {
       username: `${username}-session-${session_id}`,
@@ -30,6 +28,7 @@ export async function scapeAmazonProduct(url: string) {
     //Extract The Title
 
     const title = $("#productTitle").text().trim();
+
     const currentPrice = extractPrice(
       $(".priceToPay span.a-price-whole"),
       $(".a.size.base.a-color-price"),
@@ -79,7 +78,9 @@ export async function scapeAmazonProduct(url: string) {
       averagePrice: Number(currentPrice) || Number(originalPrice),
     };
 
-    // console.log(data);
+    console.log("check data");
+
+    console.log(data);
 
     return data;
   } catch (error) {
